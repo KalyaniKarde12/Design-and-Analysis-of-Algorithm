@@ -1,0 +1,31 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Function to print all subsets of the array
+void printSubsets(vector<int>& arr) {
+    int n = arr.size();
+    int totalSubsets = 1 << n; // 2^n subsets
+
+    // Iterate through all subsets
+    for (int mask = 0; mask < totalSubsets; mask++) {
+        for (int i = 0; i < n; i++) {
+            if (mask & (1 << i)) { // If the i-th bit in the mask is set, include arr[i]
+                cout << arr[i] << " ";
+            }
+        }
+        cout << endl; // Separate subsets
+    }
+}
+
+int main() {
+    vector<int> arr1 = {1, 2, 3};
+    cout << "Subsets of {1, 2, 3}:" << endl;
+    printSubsets(arr1);
+
+    vector<int> arr2 = {1, 2};
+    cout << "\nSubsets of {1, 2}:" << endl;
+    printSubsets(arr2);
+
+    return 0;
+}
