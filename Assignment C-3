@@ -1,0 +1,46 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+// Function to check if s1 can be transformed into s2
+bool canTransform(string s1, string s2) {
+    int m = s1.length();
+    int n = s2.length();
+
+    // Create a DP table
+    vector<vector<bool>> dp(m + 1, vector<bool>(n + 1, false));
+
+    // Base case: An empty `s2` can always be formed by deleting all characters in `s1`
+    for (int i = 0; i <= m; i++) {
+        dp[i][0] = true;
+    }
+
+    // Fill the DP table
+    for (int i = 1; i <= m; i++) {
+        for (int j = 0; j <= n; j++) {
+            // Case 1: If characters match (or s1[i-1] can be converted to s2[j-1])
+            if (j > 0 && (toupper(s1[i - 1]) == s2[j - 1])) {
+                dp[i][j] = dp[i - 1][j - 1];
+            }
+
+            // Case 2: If s1[i-1] is a lowercase letter, we can choose to delete it
+            if (islower(s1[i - 1])) {
+                dp[i][j] = dp[i][j] || dp[i - 1][j];
+            }
+        }
+    }
+
+    // The result is stored in dp[m][n]
+    return dp[m][n];
+}
+
+int main() {
+    string s1_1 = "daBcd", s2_1 = "ABC";
+    cout << (canTransform(s1_1, s2_1) ? "yes" : "no") << endl;
+
+    string s1_2 = "argaju", s2_2 = "RAJ";
+    cout << (canTransform(s1_2, s2_2) ? "yes" : "no") << endl;
+
+    return 0;
+}
