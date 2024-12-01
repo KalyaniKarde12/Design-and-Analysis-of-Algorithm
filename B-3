@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+// Function to check if it's possible to complete tasks in D days with max workload "maxWorkPerDay"
+bool isPossible(vector<int>& task, int D, int maxWorkPerDay) {
+    int daysNeeded = 1; // Start with the first day
+    int currentWork = 0;
+    
+    for (int work : task) {
+        if (work > maxWorkPerDay) return false; // A single task exceeds maxWorkPerDay
+        if (currentWork + work > maxWorkPerDay) {
+            daysNeeded++; // Start a new day
+            currentWork = work; // Start with the current task
+        } else {
+            currentWork += work; // Add the task to the current day's work
+        }
+    }
+    return daysNeeded <= D; // Check if within the allowed number of days
+}
+
+// Function to find the minimum work per day
+int minWorkPerDay(vector<int>& task, int D) {
+    int left = 1, right = accumulate(task.begin(), task.end(), 0);
+    int result = right;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (isPossible(task, D, mid)) {
+            result = mid; // Update the result
+            right = mid - 1; // Try for a smaller workload
+        } else {
+            left = mid + 1; // Increase the workload
+        }
+    }
+    return result;
+}
+
+int main() {
+    vector<int> task1 = {3, 4, 7, 15};
+    int D1 = 10;
+    cout << "Minimum work per day (Example 1): " << minWorkPerDay(task1, D1) << endl;
+
+    vector<int> task2 = {30, 20, 22, 4, 21};
+    int D2 = 6;
+    cout << "Minimum work per day (Example 2): " << minWorkPerDay(task2, D2) << endl;
+
+    return 0;
+}
