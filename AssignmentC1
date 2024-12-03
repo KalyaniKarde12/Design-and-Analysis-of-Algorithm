@@ -16,15 +16,29 @@ int countWays(int coins[], int n, int sum) {
 }
 
 int main() {
-    int coins1[] = {1, 2, 3};
-    int sum1 = 4;
-    int n1 = sizeof(coins1) / sizeof(coins1[0]);
-    cout << "Number of ways to make sum " << sum1 << ": " << countWays(coins1, n1, sum1) << endl;
+    int n, sum;
 
-    int coins2[] = {2, 5, 3, 6};
-    int sum2 = 10;
-    int n2 = sizeof(coins2) / sizeof(coins2[0]);
-    cout << "Number of ways to make sum " << sum2 << ": " << countWays(coins2, n2, sum2) << endl;
+    // Input the number of coins
+    cout << "Enter the number of coins: ";
+    cin >> n;
+
+    int* coins = new int[n]; // Dynamic array for coin denominations
+
+    // Input the coin denominations
+    cout << "Enter the coin denominations: ";
+    for (int i = 0; i < n; i++) {
+        cin >> coins[i];
+    }
+
+    // Input the target sum
+    cout << "Enter the target sum: ";
+    cin >> sum;
+
+    // Output the result
+    cout << "Number of ways to make sum " << sum << ": " << countWays(coins, n, sum) << endl;
+
+    // Free dynamically allocated memory
+    delete[] coins;
 
     return 0;
 }
